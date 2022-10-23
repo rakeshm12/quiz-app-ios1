@@ -1,20 +1,13 @@
 //
-//  ViewController.swift
-//  Quizzler-iOS13
+//  QuizBrain.swift
+//  quiz-app-ios
 //
-//  Created by Angela Yu on 12/07/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
+//  Created by Rakesh Mohan on 23/10/22.
 //
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
-    
-    @IBOutlet weak var questionText: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var falseButton: UIButton!
-    
+struct QuizBrain{
     let question = [
         Question(q: "A slug's blood is green.", a: "True"),
                 Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -31,51 +24,36 @@ class ViewController: UIViewController {
 
     ]
     
-    
     var index = 0
-
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updateUI()
+    func checkAnswer(_ userAnser: String) -> Bool {
+        if userAnser == question[index].answer {
+            return true
+        }else{
+            return false
+        }
     }
     
+     func  getQuestionText() -> String {
+       
+      let value =  question[index].text
+        
+         return value
+    }
+    func  getProgress() -> Float {
+       
+        return Float(index) / Float(question.count)
+    }
     
-    @IBAction func buttonPressed(_ sender: UIButton) {
-        let userAnswer = sender.currentTitle!
-        let correctAnswer = question[index].answer
-    
-        
-        if userAnswer == correctAnswer{
-           
-            sender.backgroundColor = UIColor.green
-            
-        } else {
-            sender.backgroundColor = UIColor.red
-        }
-        
-        
+    mutating func  nextQuestion() {
+       
         if index < question.count - 1{
             index += 1
         } else{
             index = 0
-            progressBar.progress = 0.0
+          
         }
-        
-       Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
-        
-        
-        
     }
     
-   @objc func updateUI() {
-        questionText.text = question[index].text
-        trueButton.backgroundColor = UIColor.clear
-        falseButton.backgroundColor = UIColor.clear
-       progressBar.progress = Float(index) / Float(question.count - 1)
-    }
     
-
 }
-
