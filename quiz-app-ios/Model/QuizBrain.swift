@@ -26,21 +26,24 @@ struct QuizBrain{
     
     var index = 0
     
-    func checkAnswer(_ userAnser: String) -> Bool {
+     var score = 0
+    
+    mutating func checkAnswer(_ userAnser: String) -> Bool {
         if userAnser == question[index].answer {
+            score += 1
             return true
         }else{
             return false
         }
     }
     
-     func  getQuestionText() -> String {
+     func getQuestionText() -> String {
        
       let value =  question[index].text
         
          return value
     }
-    func  getProgress() -> Float {
+    func getProgress() -> Float {
        
         return Float(index) / Float(question.count)
     }
@@ -49,10 +52,16 @@ struct QuizBrain{
        
         if index < question.count - 1{
             index += 1
+            
         } else{
             index = 0
-          
+            score = 0
         }
+    }
+    
+    func getScore() -> Int {
+        
+        return score
     }
     
     
